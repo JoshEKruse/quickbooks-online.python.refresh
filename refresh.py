@@ -62,6 +62,6 @@ def refresh_tokens( request ) :
 
     return 'ok', 200
 
-if __name__ == "__name__" :
+if __name__ == "__main__" :
     app.run( host='0.0.0.0', port=int( os.getenv( 'PORT', 8080 )))
 
