@@ -36,16 +36,19 @@ auth_client = AuthClient(
     redirect_uri = redirect_uri,
 )
 
-# Instantiate client
-client = QuickBooks(
-    auth_client = auth_client,
-    refresh_token = refresh_token,
-    company_id = company_id,
+# Refresh tokens
+auth_client.refresh( refresh_token=refresh_token )
+
+access_token = auth_client.access_token
+refresh_token = auth_client.refresh_token
+
+update_job = bq_client.query(
+    f"""
+    UPDATE `yetibooks-reporting.Utility.QBO_Secret_Store`
+        SET access_token = '{ access_token }'
+           ,refresh_token = '{ refresh_token }'
+    WHERE company_id = '{ company_id }'
+    """
 )
 
-
-customers = Customer.all( qb=client )
-
-for customer in customers :
-    json_data = customer.to_json()
-    print( json_data )
+result = update_job.result()
