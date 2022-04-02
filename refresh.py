@@ -9,7 +9,7 @@ import os
 app = Flask( __name__ )
 
 @app.route( '/' )
-def refresh_tokens( request ) :
+def refresh_tokens() :
 
     company_id = '9130352109852406'
 
